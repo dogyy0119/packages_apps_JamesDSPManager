@@ -167,10 +167,10 @@ public final class DSPManager extends Activity
         if (!preferencesMode.contains("dsp.app.theme"))
             preferencesMode.edit().putInt("dsp.app.theme", 2).commit();
         if (!preferencesMode.contains("dsp.app.modeEffect"))
-        	preferencesMode.edit().putInt("dsp.app.modeEffect", 0).commit();
+        	preferencesMode.edit().putInt("dsp.app.modeEffect", 1).commit();
         devMsgDisplay = preferencesMode.getBoolean("dsp.app.showdevmsg", false);
         themeApp = preferencesMode.getInt("dsp.app.theme", 2);
-        effectMode = preferencesMode.getInt("dsp.app.modeEffect", 0);
+        effectMode = preferencesMode.getInt("dsp.app.modeEffect", 1);
         mUserLearnedDrawer = preferencesMode.getBoolean(PREF_USER_LEARNED_DRAWER, false);
         mTitle = getTitle();
         ActionBar mActionBar = getActionBar();

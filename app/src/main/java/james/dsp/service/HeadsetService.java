@@ -524,8 +524,8 @@ class StartUpOptimiserThread implements Runnable {
 		iconLarge = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
 		preferencesMode = getSharedPreferences(DSPManager.SHARED_PREFERENCES_BASENAME + "." + "settings", 0);
 		if (!preferencesMode.contains("dsp.app.modeEffect"))
-			preferencesMode.edit().putInt("dsp.app.modeEffect", 0).commit();
-		modeEffect = preferencesMode.getInt("dsp.app.modeEffect", 0);
+			preferencesMode.edit().putInt("dsp.app.modeEffect", 1).commit();
+		modeEffect = preferencesMode.getInt("dsp.app.modeEffect", 1);
 		if (JamesDSPGbEf != null)
 		{
 			JamesDSPGbEf.release();
@@ -572,7 +572,7 @@ class StartUpOptimiserThread implements Runnable {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
-		modeEffect = preferencesMode.getInt("dsp.app.modeEffect", 0);
+		modeEffect = preferencesMode.getInt("dsp.app.modeEffect", 1);
 		if (modeEffect == 0)
 		{
 			if (JamesDSPGbEf == null) {
@@ -635,7 +635,7 @@ class StartUpOptimiserThread implements Runnable {
 	*/
 	protected void updateDsp(boolean notify, boolean updateConvolver)
 	{
-		modeEffect = preferencesMode.getInt("dsp.app.modeEffect", 0);
+		modeEffect = preferencesMode.getInt("dsp.app.modeEffect", 1);
 		final String mode = getAudioOutputRouting();
 		SharedPreferences preferences = getSharedPreferences(DSPManager.SHARED_PREFERENCES_BASENAME + "." + mode, 0);
 		SharedPreferences advancedPref = getSharedPreferences(DSPManager.SHARED_PREFERENCES_BASENAME + "." + "advanced" + "." + mode, 0);
