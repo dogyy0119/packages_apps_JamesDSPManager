@@ -18,15 +18,20 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import james.dsp.R;
+import james.dsp.preference.EqualizerPreference;
+import james.dsp.preference.EqualizerSurface;
 
 public class MainActivity extends Activity {
 
     /** 功能列表视图 */
+    private Context mycontext;
     private ListView mFeatureListView;
+    protected EqualizerSurface mListEqualizer, mDialogEqualizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mycontext = this;
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.basic_menu);
 
@@ -42,16 +47,13 @@ public class MainActivity extends Activity {
                     .replace(R.id.myframelayout, contentView)
                     .commit();
 
-//            WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-//            DisplayMetrics dm = new DisplayMetrics();
-//            wm.getDefaultDisplay().getMetrics(dm);
-//            int width = dm.widthPixels;// 屏幕宽度（像素）
-//
-//            Log.e("Liuhang",  "width :" + width );
-//            FrameLayout fl_center=(FrameLayout)findViewById(R.id.myframelayout);
-//            Log.e("Liuhang",  "width1 :" + fl_center.getLayoutParams().width );
-//            fl_center.getLayoutParams().width = width - 80;
-//            Log.e("Liuhang",  "width2 :" + fl_center.getLayoutParams().width );
+            if(findViewById(R.id.equalizerSurface) != null)
+                Log.e("Liuhang",  "! = null");
+
+            mListEqualizer = (EqualizerSurface) findViewById(R.id.equalizerSurface);
+            if (mListEqualizer != null) {
+                mListEqualizer.setOnClickListener(listener);
+            }
         }
 
         mFeatureListView = (ListView) findViewById(R.id.feature_list);
@@ -64,6 +66,18 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    protected void onStart () {
+        super.onStart();
+        if(findViewById(R.id.equalizerSurface) != null) {
+            Log.e("Liuhang", "! = null");
+            mListEqualizer = (EqualizerSurface) findViewById(R.id.equalizerSurface);
+            if (mListEqualizer != null) {
+                mListEqualizer.setOnClickListener(listener);
+            }
+        }
+    }
+
     /**
      * 功能列表项点击回调
      */
@@ -71,8 +85,20 @@ public class MainActivity extends Activity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Log.e("Liuhang",  "MainActivity: " + " mFeatureListItemClickListener");
+
             Feature feature = mFeatures[position];
 
+        }
+    };
+
+    private final View.OnClickListener listener = new View.OnClickListener()
+    {
+
+        @Override
+        public void onClick(View v) {
+            Log.e("Liuhang",  "OnClickListener: " + "onClick ");
+            EqualizerPreference tem= new EqualizerPreference(mycontext,null);
         }
     };
 

@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import james.dsp.R;
@@ -29,14 +30,18 @@ public class EqualizerSurface extends SurfaceView
     private int mHeight;
 
     private float[] mLevels = new float[15];
+//    private float[] mLevels = new float[31];
     private float[] mFreq = {25.0f, 40.0f, 63.0f, 100.0f, 160.0f, 250.0f, 400.0f, 630.0f, 1000.0f, 1600.0f, 2500.0f, 4000.0f, 6300.0f, 10000.0f, 16000.0f};
+//    private float[] mFreq = {20.0f,25.0f,32.0f,40.0f,50.0f,63.0f,80.0f,100.0f,125.0f,160.0f,200.0f,250.0f,315.0f,400.0f,500.0f,630.0f,800.0f,1000.0f,1250.0f,1600.0f,2000.0f,2500.0f,3150.0f,4000.0f,5000.0f,6300.0f,8000.0f,10000.0f,12500.0f,16000.0f,20000.0f};
     private String[] mFreqText = {"25","40","63","100","160","250","400","630","1k","1.6k","2.5k","4k","6.3k","10k","16k"};
+//    private String[] mFreqText = {"20Hz","25Hz","32Hz","40Hz","50Hz","63Hz","80Hz","100Hz","125Hz","160Hz","200Hz","250Hz","315Hz","400Hz","500Hz","630Hz","800Hz","1KHz","1.25KHz","1.6KHz","2KHz","2.5KHz","3.15KHz","4KHz","5KHz","6.3KHz","8KHz","10KHz","12.5KHz","16KHz","20KHz"};
     private final Paint mWhite, mGridLines, mControlBarText, mControlBar, mControlBarKnob;
     private final Paint mFrequencyResponseBg, mFrequencyResponseHighlight, mFrequencyResponseHighlight2;
 
     public EqualizerSurface(Context context, AttributeSet attributeSet)
     {
         super(context, attributeSet);
+        Log.e("Liuhang",  "EqualizerSurface:" + "EqualizerSurface");
         setWillNotDraw(false);
         mWhite = new Paint();
         mWhite.setColor(ContextCompat.getColor(context,R.color.white));
@@ -78,6 +83,7 @@ public class EqualizerSurface extends SurfaceView
     protected Parcelable onSaveInstanceState()
     {
         Bundle b = new Bundle();
+        Log.e("Liuhang",  "EqualizerSurface:" + "onSaveInstanceState");
         b.putParcelable("super", super.onSaveInstanceState());
         b.putFloatArray("levels", mLevels);
         return b;
@@ -86,6 +92,8 @@ public class EqualizerSurface extends SurfaceView
     @Override
     protected void onRestoreInstanceState(Parcelable p)
     {
+        Log.e("Liuhang",  "EqualizerSurface:" + "onRestoreInstanceState");
+
         Bundle b = (Bundle) p;
         super.onRestoreInstanceState(b.getBundle("super"));
         mLevels = b.getFloatArray("levels");
@@ -95,6 +103,7 @@ public class EqualizerSurface extends SurfaceView
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
+        Log.e("Liuhang",  "EqualizerSurface:" + "onAttachedToWindow");
         setLayerType(View.LAYER_TYPE_HARDWARE, null);
         buildLayer();
     }
@@ -102,6 +111,8 @@ public class EqualizerSurface extends SurfaceView
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
+        Log.e("Liuhang",  "EqualizerSurface:" + "onLayout");
+
         super.onLayout(changed, left, top, right, bottom);
         mWidth = right - left;
         mHeight = bottom - top;
@@ -187,6 +198,7 @@ public class EqualizerSurface extends SurfaceView
     @Override
     protected void onDraw(Canvas canvas)
     {
+        Log.e("Liuhang",  "EqualizerSurface:" + "onDraw");
         /* clear canvas */
         canvas.drawRGB(0, 0, 0);
         Path freqResponse = new Path();

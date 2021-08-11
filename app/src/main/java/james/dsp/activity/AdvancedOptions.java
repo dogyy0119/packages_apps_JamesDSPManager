@@ -18,7 +18,6 @@ public class AdvancedOptions extends PreferenceFragment {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            Log.e(TAG, "Preferenced changed!");
             getActivity().sendBroadcast(new Intent(DSPManager.ACTION_UPDATE_PREFERENCES));
         }
     };
@@ -28,12 +27,15 @@ public class AdvancedOptions extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         String config = getArguments().getString("config");
+        Log.e("liuhang", "AdvancedOptions config:" + config );
+
         getPreferenceManager().setSharedPreferencesName(
                 DSPManager.SHARED_PREFERENCES_BASENAME + "." + "advanced" + "." + config);
         getPreferenceManager().setSharedPreferencesMode(Context.MODE_MULTI_PROCESS);
         try
         {
             int xmlId = R.xml.class.getField( "advanced_preferences").getInt(null);
+            Log.e("liuhang", "AdvancedOptions xmlId:" + xmlId );
             addPreferencesFromResource(xmlId);
         }
         catch (Exception e)

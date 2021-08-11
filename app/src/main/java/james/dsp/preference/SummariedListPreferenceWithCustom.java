@@ -184,8 +184,9 @@ class ResamplerThread implements Runnable {
            new Handler(Looper.getMainLooper()).post(new Runnable() {
         	    @Override
         	    public void run() {
-        	           File f = new File(finalName);
-        	           if(f.exists() && !f.isDirectory())
+        	            Log.e("Liuhang",  "ResamplerThread:" + "run");
+        	            File f = new File(finalName);
+        	            if(f.exists() && !f.isDirectory())
         	           	Toast.makeText(DSPManager.actUi, DSPManager.actUi.getString(R.string.resamplerstr, tarSmpRate, finalName), Toast.LENGTH_LONG).show();
         	    }
         	});

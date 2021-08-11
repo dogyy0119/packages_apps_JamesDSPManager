@@ -92,10 +92,10 @@ public final class DSPManager extends Activity
     //==================================
     // Drawer
     //==================================
-    private ActionBarDrawerToggle mDrawerToggle;
-    private CustomDrawerLayout mDrawerLayout;
-    private ListView mDrawerListView;
-    private View mFragmentContainerView;
+    private ActionBarDrawerToggle mDrawerToggle; // 抽屉
+    private CustomDrawerLayout mDrawerLayout; // 整体布局
+    private ListView mDrawerListView;  // list view
+    private View mFragmentContainerView; // list view
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
@@ -185,9 +185,11 @@ public final class DSPManager extends Activity
 
         Intent serviceIntent = new Intent(this, HeadsetService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.e("Liuhang",  "DSPManager:" + "startForegroundService");
             initializeNotificationChannel();
             startForegroundService(serviceIntent);
         } else startService(serviceIntent);
+        Log.e("Liuhang",  "DSPManager:" + "startService over");
 
         sendBroadcast(new Intent(DSPManager.ACTION_UPDATE_PREFERENCES));
         setUpUi();
@@ -276,6 +278,7 @@ public final class DSPManager extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        Log.e("Liuhang",  "DSPManager:" + "startForegroundService");
         if (mDrawerToggle.onOptionsItemSelected(item))
             return true;
         int choice = item.getItemId();
@@ -432,6 +435,7 @@ public final class DSPManager extends Activity
         {
             public void onClick(DialogInterface dialog, int which)
             {
+                Log.e("Liuhang",  "DSPManager:" + "loadPresetDialog: which=" + which );
                 loadPreset(names[which]);
             }
         });
@@ -668,6 +672,7 @@ public final class DSPManager extends Activity
         */
         public static Fragment newInstance(int fragmentId)
         {
+            Log.e("Liuhang",  "DSPManager:" + "newInstance");
             final DSPScreen dspFragment = new DSPScreen();
             Bundle b = new Bundle();
             b.putString("config", mEntries[fragmentId]);
@@ -713,6 +718,7 @@ public final class DSPManager extends Activity
         @Override
         public Fragment getItem(int position)
         {
+            Log.e("Liuhang",  "DSPManager:" + "getItem");
             final DSPScreen dspFragment = new DSPScreen();
             Bundle b = new Bundle();
             b.putString("config", entries[position]);

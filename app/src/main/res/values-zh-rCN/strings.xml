@@ -129,8 +129,7 @@
   <string name="load_error_speaker">加载扬声器.xml 失败。文件未找到或权限被拒绝</string>
   <string name="warn_null">文件名不能是 EMPT，或者在下一个预设加载时负载失败</string>
   <string name="help_title">用户手册</string>
-  <string name="help_text">    <b>信用：</b>\n\n
-    GUI作者：Antti S. Lankila \n
+  <string name="help_text">GUI作者：Liuhang \n
   </string>
   <string name="advanced_options">高级选项</string>
 </resources>

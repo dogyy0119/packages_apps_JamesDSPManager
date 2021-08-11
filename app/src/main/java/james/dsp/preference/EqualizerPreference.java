@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -30,6 +31,7 @@ public class EqualizerPreference extends DialogPreference
         public void onServiceConnected(ComponentName name, IBinder binder)
         {
             mHeadsetService = ((HeadsetService.LocalBinder) binder).getService();
+            Log.e("Liuhang",  "EqualizerPreference:" + "ServiceConnection:" + " onServiceConnected");
             updateDspFromDialogEqualizer();
         }
         @Override
@@ -42,12 +44,16 @@ public class EqualizerPreference extends DialogPreference
     public EqualizerPreference(Context context, AttributeSet attributeSet)
     {
         super(context, attributeSet);
+        Log.e("Liuhang",  "EqualizerPreference:" + "EqualizerPreference:");
+
         setLayoutResource(R.layout.equalizer);
         setDialogLayoutResource(R.layout.equalizer_popup);
     }
 
     protected void updateDspFromDialogEqualizer()
     {
+        Log.e("Liuhang",  "EqualizerPreference:" + "updateDspFromDialogEqualizer:");
+
         if (mHeadsetService != null)
         {
             float[] levels = new float[15];
@@ -60,6 +66,8 @@ public class EqualizerPreference extends DialogPreference
     private void updateListEqualizerFromValue()
     {
         String value = getPersistedString(null);
+        Log.e("Liuhang",  "EqualizerPreference:" + "updateListEqualizerFromValue:" + value);
+
         if (value != null && mListEqualizer != null)
         {
             String[] levelsStr = value.split(";");
@@ -72,12 +80,15 @@ public class EqualizerPreference extends DialogPreference
     protected void onBindDialogView(View view)
     {
         super.onBindDialogView(view);
+        Log.e("Liuhang",  "EqualizerPreference:" + "onBindDialogView");
+
         mDialogEqualizer = (EqualizerSurface) view.findViewById(R.id.FrequencyResponse);
         mDialogEqualizer.setOnTouchListener(new OnTouchListener()
         {
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
+                Log.e("Liuhang",  "EqualizerPreference:" + "onBindDialogView:" + " onTouch");
                 float x = event.getX();
                 float y = event.getY();
                 /* Which band is closest to the position user pressed? */
@@ -104,6 +115,8 @@ public class EqualizerPreference extends DialogPreference
     @Override
     protected void onDialogClosed(boolean positiveResult)
     {
+        Log.e("Liuhang",  "EqualizerPreference:" + "onDialogClosed:" );
+
         if (positiveResult)
         {
             String value = "";
@@ -121,6 +134,8 @@ public class EqualizerPreference extends DialogPreference
     protected void onBindView(View view)
     {
         super.onBindView(view);
+        Log.e("Liuhang",  "EqualizerPreference:" + "onBindView");
+
         mListEqualizer = (EqualizerSurface) view.findViewById(R.id.FrequencyResponse);
         updateListEqualizerFromValue();
     }
@@ -128,6 +143,8 @@ public class EqualizerPreference extends DialogPreference
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue)
     {
+        Log.e("Liuhang",  "EqualizerPreference:" + "onSetInitialValue:" + "restorePersistedValue: " + restorePersistedValue + "(String) defaultValue" + (String) defaultValue);
+
         String value = restorePersistedValue ? getPersistedString(null) : (String) defaultValue;
         if (shouldPersist())
             persistString(value);
@@ -135,6 +152,8 @@ public class EqualizerPreference extends DialogPreference
 
     public void refreshFromPreference()
     {
+        Log.e("Liuhang",  "EqualizerPreference:" + "refreshFromPreference:" );
+
         onSetInitialValue(true, null);
     }
 }

@@ -9,6 +9,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.util.Log;
 
 import james.dsp.R;
 import james.dsp.preference.EqualizerPreference;
@@ -32,25 +33,32 @@ public final class DSPScreen extends PreferenceFragment
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
         {
+            Log.e("Liuhang",  "DSPScreen:" + "onSharedPreferenceChanged ||| " + key);
             /* If the listpref is updated, copy the changed setting to the eq. */
             if ("dsp.tone.eq".equals(key))
             {
                 String newValue = sharedPreferences.getString(key, null);
+
+                Log.e("Liuhang",  "DSPScreen:" + "onSharedPreferenceChanged ||| newValue " + newValue);
                 if (!"custom".equals(newValue))
                 {
                     Editor e = sharedPreferences.edit();
+                    Log.e("Liuhang",  "DSPScreen:" + "onSharedPreferenceChanged ||| putValue " + newValue);
                     e.putString("dsp.tone.eq.custom", newValue);
                     e.apply();
                     /* Now tell the equalizer that it must display something else. */
-                    EqualizerPreference eq = (EqualizerPreference)
-                                             getPreferenceScreen().findPreference("dsp.tone.eq.custom");
-                    eq.refreshFromPreference();
+//                    EqualizerPreference eq = (EqualizerPreference)
+//                                             getPreferenceScreen().findPreference("dsp.tone.eq.custom");
+//                    eq.refreshFromPreference();
                 }
             }
             /* If the equalizer surface is updated, select matching pref entry or "custom". */
             if ("dsp.tone.eq.custom".equals(key))
             {
                 String newValue = sharedPreferences.getString(key, null);
+
+                Log.e("Liuhang",  "DSPScreen:" + "onSharedPreferenceChanged ||| custom newValue " + newValue);
+
                 String desiredValue = "custom";
                 SummariedListPreference preset = (SummariedListPreference)
                                                  getPreferenceScreen().findPreference("dsp.tone.eq");
@@ -80,12 +88,14 @@ public final class DSPScreen extends PreferenceFragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Log.e("Liuhang",  "DSPScreen:" + "onCreate");
         final String config = getArguments().getString("config");
         getPreferenceManager().setSharedPreferencesName(
             DSPManager.SHARED_PREFERENCES_BASENAME + "." + config);
         getPreferenceManager().setSharedPreferencesMode(Context.MODE_MULTI_PROCESS);
         try
         {
+            Log.e("Liuhang",  "DSPScreen:" + "onCreate:" + "config:" + config);
             int xmlId = R.xml.class.getField(config + "_preferences").getInt(null);
             addPreferencesFromResource(xmlId);
         }
