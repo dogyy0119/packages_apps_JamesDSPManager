@@ -98,7 +98,13 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View v) {
             Log.e("Liuhang",  "OnClickListener: " + "onClick ");
-            EqualizerPreference tem= new EqualizerPreference(mycontext,null);
+//            EqualizerPreference tem= new EqualizerPreference(mycontext,null);
+//            EqalizerActivity tmp = new EqalizerActivity();
+            Intent itent=new Intent();
+            itent.setClass(MainActivity.this, EqalizerActivity.class);
+            startActivity(itent);
+//            EqalizerActivity.this.finish();
+
         }
     };
 

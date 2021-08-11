@@ -62,7 +62,7 @@ public class HeadsetService extends Service {
      * @Co-founder alankila
      */
     Bitmap iconLarge;
-    public static int modeEffect;
+    public static int modeEffect; // 0 代表全局， 默认为 1
     public final static UUID EFFECT_TYPE_CUSTOM = UUID.fromString("f98765f4-c321-5de6-9a45-123459495ab2");
     public final static UUID EFFECT_JAMESDSP = UUID.fromString("f27317f4-c984-4de6-9a90-545759495bf2");
 
@@ -78,6 +78,10 @@ public class HeadsetService extends Service {
                 JamesDSP = AudioEffect.class.getConstructor(UUID.class,
                         UUID.class, Integer.TYPE, Integer.TYPE).newInstance(
                         EFFECT_TYPE_CUSTOM, EFFECT_JAMESDSP, 0, sessionId);
+                if (JamesDSP != null )
+                    Log.e("Liuhang",  "HeadsetService: " + "add library successed !");
+                else
+                    Log.e("Liuhang",  "HeadsetService: " + "add library failed !");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -299,12 +303,14 @@ public class HeadsetService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             int sessionId = intent.getIntExtra(AudioEffect.EXTRA_AUDIO_SESSION, 0);
+            Log.e("Liuhang",  "HeadsetService: " + "mAudioSessionReceiver onReceive !sessionId:" + sessionId );
             if (sessionId == 0)
                 return;
             if (action.equals(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION)) {
                 if (modeEffect == 0)
                     return;
                 if (!mAudioSessions.containsKey(sessionId)) {
+                    Log.e("Liuhang",  "HeadsetService: " + "new JDSPModule");
                     JDSPModule fxId = new JDSPModule(sessionId);
                     if (fxId.JamesDSP == null) {
                         Log.e(TAG, "Audio session load fail");
@@ -329,6 +335,7 @@ public class HeadsetService extends Service {
     private final BroadcastReceiver mPreferenceUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.e("Liuhang",  "HeadsetService: " + "mPreferenceUpdateReceiver onReceive "  );
             updateDsp(false, true);
         }
     };
@@ -355,6 +362,7 @@ public class HeadsetService extends Service {
     private final BroadcastReceiver mBtReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
+            Log.e("Liuhang",  "HeadsetService: " + "mBtReceiver onReceive "  );
             final String action = intent.getAction();
             if (action.equals(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED)) {
                 int state = intent.getIntExtra(BluetoothProfile.EXTRA_STATE, BluetoothProfile.STATE_CONNECTED);
