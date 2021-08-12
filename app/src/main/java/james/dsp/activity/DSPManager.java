@@ -177,6 +177,7 @@ public final class DSPManager extends Activity
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
+
         if (savedInstanceState != null)
         {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -336,6 +337,7 @@ public final class DSPManager extends Activity
             @Override
             public void onItemClick(AdapterView< ? > parent, View view, int position, long id)
             {
+                Log.e("Liuhang",  "DSPManager:" + "onItemClick");
                 selectItem(position);
             }
         });
@@ -607,6 +609,7 @@ public final class DSPManager extends Activity
 
     private void selectItem(int position)
     {
+
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null)
             mDrawerListView.setItemChecked(position, true);
@@ -617,6 +620,7 @@ public final class DSPManager extends Activity
         .replace(R.id.dsp_container, PlaceholderFragment.newInstance(position))
         .commit();
         mTitle = mTitles.get(position).get("TITLE");
+        Log.e("Liuhang",  "DSPManager:" + "selectItem" + "mTitle:"+ mTitle);
         getActionBar().setTitle(mTitle);
     }
 

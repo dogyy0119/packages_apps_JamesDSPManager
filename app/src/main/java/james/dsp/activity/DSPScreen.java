@@ -95,7 +95,6 @@ public final class DSPScreen extends PreferenceFragment
         getPreferenceManager().setSharedPreferencesMode(Context.MODE_MULTI_PROCESS);
         try
         {
-            Log.e("Liuhang",  "DSPScreen:" + "onCreate:" + "config:" + config);
             int xmlId = R.xml.class.getField(config + "_preferences").getInt(null);
             addPreferencesFromResource(xmlId);
         }
@@ -106,26 +105,26 @@ public final class DSPScreen extends PreferenceFragment
         getPreferenceManager().getSharedPreferences()
         .registerOnSharedPreferenceChangeListener(listener);
 
-        Preference preference = getPreferenceManager().findPreference("advanced.options");
-        if (preference != null) {
-            preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("config", config);
-
-                    AdvancedOptions advancedOptions = new AdvancedOptions();
-                    advancedOptions.setArguments(bundle);
-
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.dsp_container, advancedOptions);
-                    ft.addToBackStack(null);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                    ft.commit();
-                    return true;
-                }
-            });
-        }
+//        Preference preference = getPreferenceManager().findPreference("advanced.options");
+//        if (preference != null) {
+//            preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//                @Override
+//                public boolean onPreferenceClick(Preference preference) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("config", config);
+//
+//                    AdvancedOptions advancedOptions = new AdvancedOptions();
+//                    advancedOptions.setArguments(bundle);
+//
+//                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                    ft.replace(R.id.dsp_container, advancedOptions);
+//                    ft.addToBackStack(null);
+//                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                    ft.commit();
+//                    return true;
+//                }
+//            });
+//        }
     }
 
     @Override

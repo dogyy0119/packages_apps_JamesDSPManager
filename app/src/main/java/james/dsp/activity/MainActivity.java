@@ -5,25 +5,23 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import james.dsp.R;
-import james.dsp.preference.EqualizerPreference;
 import james.dsp.preference.EqualizerSurface;
 
 public class MainActivity extends Activity {
 
-    /** 功能列表视图 */
+    /**
+     * 功能列表视图
+     */
+    private int m_position;
     private Context mycontext;
     private ListView mFeatureListView;
     protected EqualizerSurface mListEqualizer, mDialogEqualizer;
@@ -31,51 +29,124 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mycontext = this;
+        mycontext = getApplicationContext();
+        ;
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.basic_menu);
 
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); // 横屏
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 竖屏
-        Log.e("Liuhang",  "2");
+        // 菜单button
+        if (findViewById(R.id.feature_list) != null) {
+            mFeatureListView = (ListView) findViewById(R.id.feature_list);
+            String[] items = new String[mFeatures.length];
+            for (int i = 0; i < mFeatures.length; ++i) {
+                items[i] = mFeatures[i].desc;
+            }
+            mFeatureListView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, items));
+            mFeatureListView.setOnItemClickListener(mFeatureListItemClickListener);
+        }
+
+        // frame
+        if (findViewById(R.id.myframelayout) != null) {
+            OverallFrameLayout contentView = new OverallFrameLayout("全局");
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.myframelayout, contentView)
+                    .commit();
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (findViewById(R.id.all_equalizer_surface) != null) {
+            Log.e("Liuhang", "onStart ! = null");
+            mListEqualizer = (EqualizerSurface) findViewById(R.id.all_equalizer_surface);
+            if (mListEqualizer != null) {
+                mListEqualizer.setOnClickListener(listener);
+            }
+        }
+    }
+
+    private void save() {
+
+    }
+
+    private void quit() {
+        save();
+        finish();
+    }
+
+    private void overall_Situation() {
 
         if (findViewById(R.id.myframelayout) != null) {
-            OverallFrameLayout contentView = new OverallFrameLayout( "全局");
+            OverallFrameLayout contentView = new OverallFrameLayout(mFeatures[m_position].desc);
 
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.myframelayout, contentView)
                     .commit();
 
-            if(findViewById(R.id.equalizerSurface) != null)
-                Log.e("Liuhang",  "! = null");
+            if ( findViewById(R.id.all_equalizer_surface) != null ) {
+                Log.e("Liuhang", "all_equalizer_surface ! = null");
+                mListEqualizer = null;
+                mListEqualizer = (EqualizerSurface) findViewById(R.id.all_equalizer_surface);
+                if (mListEqualizer != null) {
+                    Log.e("Liuhang", " mListEqualizer all_equalizer_surface ! = null");
+                    mListEqualizer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-            mListEqualizer = (EqualizerSurface) findViewById(R.id.equalizerSurface);
-            if (mListEqualizer != null) {
-                mListEqualizer.setOnClickListener(listener);
+                            Intent itent = new Intent();
+                            itent.setClass(MainActivity.this, EqalizerActivity.class);
+                            startActivity(itent);
+                        }
+                    });
+                }
             }
         }
+    }
 
-        mFeatureListView = (ListView) findViewById(R.id.feature_list);
-        String[] items = new String[mFeatures.length];
-        for (int i = 0; i < mFeatures.length; ++i) {
-            items[i] = mFeatures[i].desc;
+    private void sound_Channel_Choose() {
+        if (findViewById(R.id.myframelayout) != null) {
+            SingleFrameLayout contentView = new SingleFrameLayout(mFeatures[m_position].desc);
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.myframelayout, contentView)
+                    .commit();
+
+            if ( findViewById(R.id.one_equalizer_surface) != null ) {
+                Log.e("Liuhang", "one_equalizer_surface ! = null");
+                mListEqualizer = null;
+                mListEqualizer = (EqualizerSurface) findViewById(R.id.one_equalizer_surface);
+                if (mListEqualizer != null) {
+                    Log.e("Liuhang", "one_equalizer_surface mListEqualizer ! = null");
+                    mListEqualizer.setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent itent = new Intent();
+                            itent.setClass(MainActivity.this, EqalizerActivity.class);
+                            startActivity(itent);
+                        }
+                    });
+                }
+            }
         }
-        mFeatureListView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, items));
-        mFeatureListView.setOnItemClickListener(mFeatureListItemClickListener);
+    }
+
+    private void sound_Delay() {
 
     }
 
-    @Override
-    protected void onStart () {
-        super.onStart();
-        if(findViewById(R.id.equalizerSurface) != null) {
-            Log.e("Liuhang", "! = null");
-            mListEqualizer = (EqualizerSurface) findViewById(R.id.equalizerSurface);
-            if (mListEqualizer != null) {
-                mListEqualizer.setOnClickListener(listener);
-            }
-        }
+    private void sound_Field() {
+
+    }
+
+    private void unsetOnClickListener() {
+        mListEqualizer.setOnClickListener(null);
     }
 
     /**
@@ -85,26 +156,45 @@ public class MainActivity extends Activity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Log.e("Liuhang",  "MainActivity: " + " mFeatureListItemClickListener");
+            Log.e("Liuhang", "MainActivity: " + " mFeatureListItemClickListener， position" + position);
 
-            Feature feature = mFeatures[position];
-
+            if (position == m_position) return;
+            m_position = position;
+            switch (position) {
+                case 0:
+                    quit();
+                    break;
+                case 1:
+                    unsetOnClickListener();
+                    overall_Situation();
+                    break;
+                case 8:
+                    unsetOnClickListener();
+                    sound_Delay();
+                    break;
+                case 9:
+                    unsetOnClickListener();
+                    sound_Field();
+                    break;
+                default:
+                    unsetOnClickListener();
+                    sound_Channel_Choose();
+                    break;
+            }
         }
     };
 
-    private final View.OnClickListener listener = new View.OnClickListener()
-    {
-
+    /**
+     * 均衡器
+     */
+    private final View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.e("Liuhang",  "OnClickListener: " + "onClick ");
-//            EqualizerPreference tem= new EqualizerPreference(mycontext,null);
-//            EqalizerActivity tmp = new EqalizerActivity();
-            Intent itent=new Intent();
+            Log.e("Liuhang", "OnClickListener: " + "onClick ");
+
+            Intent itent = new Intent();
             itent.setClass(MainActivity.this, EqalizerActivity.class);
             startActivity(itent);
-//            EqalizerActivity.this.finish();
-
         }
     };
 
@@ -122,19 +212,24 @@ public class MainActivity extends Activity {
     };
 
     private class Feature {
-        /** 描述信息 */
+        /**
+         * 描述信息
+         */
         final public String desc;
-        /** 点击启动的Activity */
+        /**
+         * 点击启动的Activity
+         */
         final public Class<? extends Fragment> activityClass;
 
         /**
          * 构造函数
+         *
          * @param desc 描述信息
          */
         public Feature(String desc) {
             this.desc = desc;
             this.activityClass = Fragment.class;
-          ;
+            ;
         }
     }
 }
