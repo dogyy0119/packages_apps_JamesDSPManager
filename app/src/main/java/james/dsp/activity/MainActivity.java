@@ -30,7 +30,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mycontext = getApplicationContext();
-        ;
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.basic_menu);
 
@@ -48,19 +47,16 @@ public class MainActivity extends Activity {
         // frame
         if (findViewById(R.id.myframelayout) != null) {
             OverallFrameLayout contentView = new OverallFrameLayout("全局");
-
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.myframelayout, contentView)
                     .commit();
         }
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         if (findViewById(R.id.all_equalizer_surface) != null) {
             Log.e("Liuhang", "onStart ! = null");
             mListEqualizer = (EqualizerSurface) findViewById(R.id.all_equalizer_surface);
@@ -69,6 +65,13 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
 
     private void save() {
 
@@ -80,7 +83,6 @@ public class MainActivity extends Activity {
     }
 
     private void overall_Situation() {
-
         if (findViewById(R.id.myframelayout) != null) {
             OverallFrameLayout contentView = new OverallFrameLayout(mFeatures[m_position].desc);
 
@@ -88,24 +90,6 @@ public class MainActivity extends Activity {
             fragmentManager.beginTransaction()
                     .replace(R.id.myframelayout, contentView)
                     .commit();
-
-            if ( findViewById(R.id.all_equalizer_surface) != null ) {
-                Log.e("Liuhang", "all_equalizer_surface ! = null");
-                mListEqualizer = null;
-                mListEqualizer = (EqualizerSurface) findViewById(R.id.all_equalizer_surface);
-                if (mListEqualizer != null) {
-                    Log.e("Liuhang", " mListEqualizer all_equalizer_surface ! = null");
-                    mListEqualizer.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            Intent itent = new Intent();
-                            itent.setClass(MainActivity.this, EqalizerActivity.class);
-                            startActivity(itent);
-                        }
-                    });
-                }
-            }
         }
     }
 
@@ -116,33 +100,13 @@ public class MainActivity extends Activity {
             fragmentManager.beginTransaction()
                     .replace(R.id.myframelayout, contentView)
                     .commit();
-
-            if ( findViewById(R.id.one_equalizer_surface) != null ) {
-                Log.e("Liuhang", "one_equalizer_surface ! = null");
-                mListEqualizer = null;
-                mListEqualizer = (EqualizerSurface) findViewById(R.id.one_equalizer_surface);
-                if (mListEqualizer != null) {
-                    Log.e("Liuhang", "one_equalizer_surface mListEqualizer ! = null");
-                    mListEqualizer.setOnClickListener( new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            Intent itent = new Intent();
-                            itent.setClass(MainActivity.this, EqalizerActivity.class);
-                            startActivity(itent);
-                        }
-                    });
-                }
-            }
         }
     }
 
     private void sound_Delay() {
-
     }
 
     private void sound_Field() {
-
     }
 
     private void unsetOnClickListener() {
@@ -153,11 +117,9 @@ public class MainActivity extends Activity {
      * 功能列表项点击回调
      */
     private AdapterView.OnItemClickListener mFeatureListItemClickListener = new AdapterView.OnItemClickListener() {
-
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.e("Liuhang", "MainActivity: " + " mFeatureListItemClickListener， position" + position);
-
             if (position == m_position) return;
             m_position = position;
             switch (position) {
@@ -191,7 +153,6 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View v) {
             Log.e("Liuhang", "OnClickListener: " + "onClick ");
-
             Intent itent = new Intent();
             itent.setClass(MainActivity.this, EqalizerActivity.class);
             startActivity(itent);

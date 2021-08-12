@@ -24,7 +24,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background = "#AABBCC"
                     android:layout_gravity = "center"
                     android:text="凯音音效" />
 
@@ -64,7 +63,6 @@
                     android:layout_weight="1"
                     android:layout_gravity = "center"
                     android:gravity="center"
-                    android:background = "#AABBCC"
                     android:text="全局声场" />
 
                 <Button
@@ -126,7 +124,6 @@
                     android:layout_width="78dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background = "#AABBCC"
                     android:layout_gravity = "center"
                     android:gravity="center"
                     android:text="风  格" />

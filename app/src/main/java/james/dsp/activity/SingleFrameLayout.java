@@ -40,23 +40,18 @@ public class SingleFrameLayout extends Fragment {
     public void onStart() {
         super.onStart();
 
+        mListEqualizer = (EqualizerSurface)getView().findViewById(R.id.one_equalizer_surface);
+        if ( mListEqualizer != null ) {
+            Log.e("Liuhang", " mListEqualizer all_equalizer_surface ! = null");
+                mListEqualizer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent itent = new Intent();
+                        itent.setClass(getContext(), EqalizerActivity.class);
+                        startActivity(itent);
+                    }
+                });
 
-//        if ( findViewById() != null ) {
-//            Log.e("Liuhang", "all_equalizer_surface ! = null");
-//            mListEqualizer = null;
-//            mListEqualizer = (EqualizerSurface) findViewById(R.id.all_equalizer_surface);
-//            if (mListEqualizer != null) {
-//                Log.e("Liuhang", " mListEqualizer all_equalizer_surface ! = null");
-//                mListEqualizer.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                        Intent itent = new Intent();
-//                        itent.setClass(MainActivity.this, EqalizerActivity.class);
-//                        startActivity(itent);
-//                    }
-//                });
-//            }
-//        }
+        }
     }
 }
