@@ -29,6 +29,7 @@ public class EqualizerSurface extends SurfaceView {
     private int mWidth;
     private int mHeight;
 
+    private static int mNumLevels = 15;
     private float[] mLevels = new float[15];
     //    private float[] mLevels = new float[31];
     private float[] mFreq = {25.0f, 40.0f, 63.0f, 100.0f, 160.0f, 250.0f, 400.0f, 630.0f, 1000.0f, 1600.0f, 2500.0f, 4000.0f, 6300.0f, 10000.0f, 16000.0f};
@@ -40,7 +41,6 @@ public class EqualizerSurface extends SurfaceView {
 
     public EqualizerSurface(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        Log.e("Liuhang", "EqualizerSurface:" + "EqualizerSurface");
         setWillNotDraw(false);
         mWhite = new Paint();
         mWhite.setColor(ContextCompat.getColor(context, R.color.white));
@@ -76,12 +76,14 @@ public class EqualizerSurface extends SurfaceView {
         mFrequencyResponseHighlight2.setStrokeWidth(3);
         mFrequencyResponseHighlight2.setColor(ContextCompat.getColor(context, R.color.freq_hl2));
         mFrequencyResponseHighlight2.setAntiAlias(true);
+        for( int i=0; i<getNum(); i++ ) {
+            mLevels[i] = 0;
+        }
     }
 
     @Override
     protected Parcelable onSaveInstanceState() {
         Bundle b = new Bundle();
-        Log.e("Liuhang", "EqualizerSurface:" + "onSaveInstanceState");
         b.putParcelable("super", super.onSaveInstanceState());
         b.putFloatArray("levels", mLevels);
         return b;
@@ -89,8 +91,6 @@ public class EqualizerSurface extends SurfaceView {
 
     @Override
     protected void onRestoreInstanceState(Parcelable p) {
-        Log.e("Liuhang", "EqualizerSurface:" + "onRestoreInstanceState");
-
         Bundle b = (Bundle) p;
         super.onRestoreInstanceState(b.getBundle("super"));
         mLevels = b.getFloatArray("levels");
@@ -99,15 +99,12 @@ public class EqualizerSurface extends SurfaceView {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        Log.e("Liuhang", "EqualizerSurface:" + "onAttachedToWindow");
         setLayerType(View.LAYER_TYPE_HARDWARE, null);
         buildLayer();
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        Log.e("Liuhang", "EqualizerSurface:" + "onLayout");
-
         super.onLayout(changed, left, top, right, bottom);
         mWidth = right - left;
         mHeight = bottom - top;
@@ -188,9 +185,16 @@ public class EqualizerSurface extends SurfaceView {
         return mLevels[i];
     }
 
+    public int getNum() {
+        return mNumLevels;
+    }
+
+    public void setMyPreferences(String name ) {
+
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.e("Liuhang", "EqualizerSurface:" + "onDraw");
         /* clear canvas */
         canvas.drawRGB(0, 0, 0);
         Path freqResponse = new Path();

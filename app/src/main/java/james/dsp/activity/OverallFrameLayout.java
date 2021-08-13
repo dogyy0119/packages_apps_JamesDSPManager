@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ListView;
 
 import james.dsp.R;
 import james.dsp.preference.EqualizerSurface;
@@ -20,6 +18,7 @@ public class OverallFrameLayout extends Fragment {
 
     private String name;
     EqualizerSurface mListEqualizer;
+    SharedPreferences preferencesMode;
 
     public OverallFrameLayout(String name) {
         this.name = name;
@@ -37,20 +36,76 @@ public class OverallFrameLayout extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view,  Bundle savedInstanceState) {
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
+        Log.e("Liuhang", "OverallFrameLayout: onStart");
+
         mListEqualizer = (EqualizerSurface)getView().findViewById(R.id.all_equalizer_surface);
+        initPrefecence();
+
+        String value = preferencesMode.getString( EqalizerActivity.AUDIO_EQUALIZER_ARRAY, null);
+        initEqualizerValue( value );
+
         if ( mListEqualizer != null ) {
-            Log.e("Liuhang", " mListEqualizer all_equalizer_surface ! = null");
             mListEqualizer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent itent = new Intent();
-                    itent.setClass(getContext(), EqalizerActivity.class);
-                    startActivity(itent);
+                    itent.putExtra( MainActivity.ACTIVITY_REQUEST, name );
+                    itent.setClass( getContext(), EqalizerActivity.class );
+                    startActivity( itent );
                 }
             });
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("Liuhang", "OverallFrameLayout: " + " onResume");
+
+        String value = preferencesMode.getString( EqalizerActivity.AUDIO_EQUALIZER_ARRAY, null);
+
+        Log.e("Liuhang", "OverallFrameLayout: " + " onResume: " + value);
+        initEqualizerValue( value );
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("Liuhang", "OverallFrameLayout: " + " onPause");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e("Liuhang", "OverallFrameLayout: " + " onStop");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("Liuhang", "OverallFrameLayout: " + " onDestroy");
+    }
+
+    public void initEqualizerValue( String value ) {
+        Log.e("Liuhang", "OverallFrameLayout: initEqualizerValue" + value);
+        if( mListEqualizer != null ) {
+            if (value != null && mListEqualizer != null)
+            {
+                String[] levelsStr = value.split(";");
+                for (int i = 0; i < mListEqualizer.getNum(); i++)
+                    mListEqualizer.setBand(i, Float.valueOf(levelsStr[i]));
+            }
+        }
+    }
+
+    private void initPrefecence () {
+        preferencesMode = this.getActivity().getSharedPreferences(EqalizerActivity.SHARED_PREFERENCES_EQUALIZER + "." + name + "."+ "settings", 0);
     }
 
 }

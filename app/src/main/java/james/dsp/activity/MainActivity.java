@@ -25,6 +25,8 @@ public class MainActivity extends Activity {
     private Context mycontext;
     private ListView mFeatureListView;
     protected EqualizerSurface mListEqualizer, mDialogEqualizer;
+    public static final String ACTIVITY_REQUEST = "name";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +59,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (findViewById(R.id.all_equalizer_surface) != null) {
-            Log.e("Liuhang", "onStart ! = null");
-            mListEqualizer = (EqualizerSurface) findViewById(R.id.all_equalizer_surface);
-            if (mListEqualizer != null) {
-                mListEqualizer.setOnClickListener(listener);
-            }
-        }
+
     }
 
     @Override
@@ -72,6 +68,28 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     private void save() {
 
@@ -85,7 +103,6 @@ public class MainActivity extends Activity {
     private void overall_Situation() {
         if (findViewById(R.id.myframelayout) != null) {
             OverallFrameLayout contentView = new OverallFrameLayout(mFeatures[m_position].desc);
-
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.myframelayout, contentView)
@@ -109,10 +126,6 @@ public class MainActivity extends Activity {
     private void sound_Field() {
     }
 
-    private void unsetOnClickListener() {
-        mListEqualizer.setOnClickListener(null);
-    }
-
     /**
      * 功能列表项点击回调
      */
@@ -127,19 +140,15 @@ public class MainActivity extends Activity {
                     quit();
                     break;
                 case 1:
-                    unsetOnClickListener();
                     overall_Situation();
                     break;
                 case 8:
-                    unsetOnClickListener();
                     sound_Delay();
                     break;
                 case 9:
-                    unsetOnClickListener();
                     sound_Field();
                     break;
                 default:
-                    unsetOnClickListener();
                     sound_Channel_Choose();
                     break;
             }
@@ -152,10 +161,7 @@ public class MainActivity extends Activity {
     private final View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.e("Liuhang", "OnClickListener: " + "onClick ");
-            Intent itent = new Intent();
-            itent.setClass(MainActivity.this, EqalizerActivity.class);
-            startActivity(itent);
+
         }
     };
 
