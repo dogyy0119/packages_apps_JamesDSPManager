@@ -47,7 +47,7 @@ public class OverallFrameLayout extends Fragment {
         mListEqualizer = (EqualizerSurface)getView().findViewById(R.id.all_equalizer_surface);
         initPrefecence();
 
-        String value = preferencesMode.getString( EqalizerActivity.AUDIO_EQUALIZER_ARRAY, null);
+        String value = preferencesMode.getString( EqualizerActivity.AUDIO_EQUALIZER_ARRAY, null);
         initEqualizerValue( value );
 
         if ( mListEqualizer != null ) {
@@ -56,7 +56,7 @@ public class OverallFrameLayout extends Fragment {
                 public void onClick(View v) {
                     Intent itent = new Intent();
                     itent.putExtra( MainActivity.ACTIVITY_REQUEST, name );
-                    itent.setClass( getContext(), EqalizerActivity.class );
+                    itent.setClass( getContext(), EqualizerActivity.class );
                     startActivity( itent );
                 }
             });
@@ -68,7 +68,7 @@ public class OverallFrameLayout extends Fragment {
         super.onResume();
         Log.e("Liuhang", "OverallFrameLayout: " + " onResume");
 
-        String value = preferencesMode.getString( EqalizerActivity.AUDIO_EQUALIZER_ARRAY, null);
+        String value = preferencesMode.getString( EqualizerActivity.AUDIO_EQUALIZER_ARRAY, null);
 
         Log.e("Liuhang", "OverallFrameLayout: " + " onResume: " + value);
         initEqualizerValue( value );
@@ -105,7 +105,7 @@ public class OverallFrameLayout extends Fragment {
     }
 
     private void initPrefecence () {
-        preferencesMode = this.getActivity().getSharedPreferences(EqalizerActivity.SHARED_PREFERENCES_EQUALIZER + "." + name + "."+ "settings", 0);
+        preferencesMode = this.getActivity().getSharedPreferences(EqualizerActivity.SHARED_PREFERENCES_EQUALIZER + "." + name + "."+ "settings", 0);
     }
 
 }

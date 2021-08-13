@@ -34,7 +34,7 @@
         </activity>
         <activity
             android:label="@string/app_name"
-            android:name="james.dsp.activity.EqalizerActivity"
+            android:name="james.dsp.activity.EqualizerActivity"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize">
 

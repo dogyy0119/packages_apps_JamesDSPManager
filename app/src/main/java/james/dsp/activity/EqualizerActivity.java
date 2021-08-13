@@ -16,7 +16,7 @@ import james.dsp.R;
 import james.dsp.preference.EqualizerSurface;
 import james.dsp.service.HeadsetService;
 
-public class EqalizerActivity extends Activity {
+public class EqualizerActivity extends Activity {
 
     public static final String SHARED_PREFERENCES_EQUALIZER = "james.dsp.EqualizerActivity";
     public static final String AUDIO_EQUALIZER_ARRAY = "audio.equalizer";
