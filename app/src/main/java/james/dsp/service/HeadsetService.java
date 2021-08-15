@@ -310,6 +310,7 @@ public class HeadsetService extends Service {
                 if (modeEffect == 0)
                     return;
                 if (!mAudioSessions.containsKey(sessionId)) {
+                    Log.e("Liuhang",  "HeadsetService: " + " ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION");
                     Log.e("Liuhang",  "HeadsetService: " + "new JDSPModule");
                     JDSPModule fxId = new JDSPModule(sessionId);
                     if (fxId.JamesDSP == null) {
@@ -322,6 +323,7 @@ public class HeadsetService extends Service {
                 }
             }
             if (action.equals(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION)) {
+                Log.e("Liuhang",  "HeadsetService: " + " ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION");
                 JDSPModule gone = mAudioSessions.remove(sessionId);
                 if (gone != null)
                     gone.release();
@@ -595,6 +597,7 @@ public class HeadsetService extends Service {
      */
     protected void updateDsp(boolean notify, boolean updateConvolver) {
         modeEffect = preferencesMode.getInt("dsp.app.modeEffect", 1);
+        Log.e("Liuhang",  "HeadsetService: " + "updateDsp : modeEffect:" + modeEffect );
         final String mode = getAudioOutputRouting();
         SharedPreferences preferences = getSharedPreferences(DSPManager.SHARED_PREFERENCES_BASENAME + "." + mode, 0);
         SharedPreferences advancedPref = getSharedPreferences(DSPManager.SHARED_PREFERENCES_BASENAME + "." + "advanced" + "." + mode, 0);
@@ -630,6 +633,7 @@ public class HeadsetService extends Service {
 
     private void updateDsp(SharedPreferences preferences, SharedPreferences advancedPref, JDSPModule session, boolean updateMajor, int sessionId) {
         boolean masterSwitch = preferences.getBoolean("dsp.masterswitch.enable", false);
+        Log.e("Liuhang",  "HeadsetService:" + "updateDsp:" + "big ;masterSwitch:" + masterSwitch );
         session.JamesDSP.setEnabled(masterSwitch); // Master switch
         if (masterSwitch) {
             int compressorEnabled = preferences.getBoolean("dsp.compression.enable", false) ? 1 : 0;

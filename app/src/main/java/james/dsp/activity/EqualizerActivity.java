@@ -2,15 +2,20 @@ package james.dsp.activity;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import james.dsp.R;
 import james.dsp.preference.EqualizerSurface;
@@ -18,27 +23,25 @@ import james.dsp.service.HeadsetService;
 
 public class EqualizerActivity extends Activity {
 
-    public static final String SHARED_PREFERENCES_EQUALIZER = "james.dsp.EqualizerActivity";
-    public static final String AUDIO_EQUALIZER_ARRAY = "audio.equalizer";
+    private SharedPreferences preferencesMode;
+    private SharedPreferences preferences;
 
+    private String mCurrentAcoustic = "";
     public String name = "";
     private EqualizerSurface mDialogEqualizer;
     private HeadsetService mHeadsetService;
-    private SharedPreferences preferencesMode;
 
 
-    private final ServiceConnection connectionForDialog = new ServiceConnection()
-    {
+    private final ServiceConnection connectionForDialog = new ServiceConnection() {
         @Override
-        public void onServiceConnected(ComponentName name, IBinder binder)
-        {
+        public void onServiceConnected(ComponentName name, IBinder binder) {
             mHeadsetService = ((HeadsetService.LocalBinder) binder).getService();
-            Log.e("Liuhang",  "EqualizerActivity:" + "ServiceConnection:" + " onServiceConnected");
+            Log.e("Liuhang", "EqualizerActivity:" + "ServiceConnection:" + " onServiceConnected");
             updateDspFromDialogEqualizer();
         }
+
         @Override
-        public void onServiceDisconnected(ComponentName name)
-        {
+        public void onServiceDisconnected(ComponentName name) {
             mHeadsetService = null;
         }
     };
@@ -46,22 +49,18 @@ public class EqualizerActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         Intent intent = getIntent();
-        name = intent.getStringExtra( MainActivity.ACTIVITY_REQUEST );
+        name = intent.getStringExtra(MainActivity.ACTIVITY_REQUEST);
 
         initPrefecence();
 
-        setContentView(R.layout.equalizer);
-//        setContentView(R.layout.equalizer_popup);
+        setContentView(R.layout.custom_equalizer);
 
         mDialogEqualizer = (EqualizerSurface) super.findViewById(R.id.FrequencyResponse);
-        mDialogEqualizer.setOnTouchListener(new View.OnTouchListener()
-        {
+        mDialogEqualizer.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                Log.e("Liuhang",  "EqualizerActivity:" + "onBindDialogView:" + " onTouch");
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.e("Liuhang", "EqualizerActivity:" + "onBindDialogView:" + " onTouch");
                 float x = event.getX();
                 float y = event.getY();
                 /* Which band is closest to the position user pressed? */
@@ -74,6 +73,8 @@ public class EqualizerActivity extends Activity {
                     level = EqualizerSurface.MAX_DB;
                 mDialogEqualizer.setBand(band, level);
                 updateDspFromDialogEqualizer();
+
+                sendBroadcast(new Intent(MainActivity.ACTION_UPDATE_PREFERENCES));
                 return true;
             }
         });
@@ -84,18 +85,19 @@ public class EqualizerActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.e("Liuhang", "EqualizerActivity:" + "onStart:" + "");
         EqualizerSurface surfaceview = findViewById(R.id.FrequencyResponse);
-
         if (surfaceview != null)
             surfaceview.setZOrderOnTop(true);
 
         getApplicationContext().bindService(new Intent(getApplicationContext(), HeadsetService.class), connectionForDialog, 0);
+
+        registerClickListener();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -107,7 +109,7 @@ public class EqualizerActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e("Liuhang",  "EqualizerActivity:" + "onStop:" + "");
+        Log.e("Liuhang", "EqualizerActivity:" + "onStop:" + "");
 
         saveListEqualizer();
         if (mHeadsetService != null)
@@ -121,29 +123,27 @@ public class EqualizerActivity extends Activity {
     }
 
 
-    private void initPrefecence () {
-        preferencesMode = getSharedPreferences(SHARED_PREFERENCES_EQUALIZER + "." + name + "."+ "settings", 0);
+    private void initPrefecence() {
+        preferencesMode = getSharedPreferences(MainActivity.SHARED_PREFERENCES_EQUALIZER + "." + name + "." + "settings", 0);
+        preferences = getSharedPreferences(MainActivity.SHARED_PREFERENCES_BASENAME + "." + "speaker", 0);
     }
 
-    protected void updateDspFromDialogEqualizer()
-    {
-        Log.e("Liuhang",  "EqualizerActivity:" + "updateDspFromDialogEqualizer:");
-        if (mHeadsetService != null)
-        {
-            float[] levels = new float[ mDialogEqualizer.getNum() ];
+    protected void updateDspFromDialogEqualizer() {
+//        Log.e("Liuhang", "EqualizerActivity:" + "updateDspFromDialogEqualizer:");
+        if (mHeadsetService != null) {
+            Log.e("Liuhang", "EqualizerActivity:" + "updateDspFromDialogEqualizer:");
+            float[] levels = new float[mDialogEqualizer.getNum()];
             for (int i = 0; i < levels.length; i++)
                 levels[i] = mDialogEqualizer.getBand(i);
             mHeadsetService.setEqualizerLevels(levels);
         }
     }
 
-    private void updateListEqualizerFromValue()
-    {
-        String value = preferencesMode.getString( AUDIO_EQUALIZER_ARRAY, null);
-        Log.e("Liuhang",  "EqualizerActivity:" + "updateListEqualizerFromValue:" + value);
+    private void updateListEqualizerFromValue() {
+        String value = preferencesMode.getString(MainActivity.AUDIO_EQUALIZER_ARRAY, null);
+        Log.e("Liuhang", "EqualizerActivity:" + "updateListEqualizerFromValue:" + value);
 
-        if (value != null && mDialogEqualizer != null)
-        {
+        if (value != null && mDialogEqualizer != null) {
             String[] levelsStr = value.split(";");
             for (int i = 0; i < mDialogEqualizer.getNum(); i++)
                 mDialogEqualizer.setBand(i, Float.valueOf(levelsStr[i]));
@@ -151,11 +151,115 @@ public class EqualizerActivity extends Activity {
     }
 
     private void saveListEqualizer() {
-        String values="";
-        for (int i=0; i< mDialogEqualizer.getNum(); i ++) {
-            values += Float.toString( mDialogEqualizer.getBand(i) ) + ";";
+        String values = "";
+        for (int i = 0; i < mDialogEqualizer.getNum(); i++) {
+            values += Float.toString(mDialogEqualizer.getBand(i)) + ";";
         }
-        Log.e("Liuhang",  "EqualizerActivity:" + "saveListEqualizer。" + values );
-        preferencesMode.edit().putString( AUDIO_EQUALIZER_ARRAY, values).commit();
+        Log.e("Liuhang", "EqualizerActivity:" + "saveListEqualizer。" + values);
+        preferencesMode.edit().putString(MainActivity.AUDIO_EQUALIZER_ARRAY, values).commit();
     }
+
+    private void changeAcousticFile() {
+        String fileName = MainActivity.ACOUSTIC_FILE_BASE  + mCurrentAcoustic;
+        SharedPreferences preferences = getSharedPreferences( fileName, 0);
+        String value = preferences.getString(MainActivity.AUDIO_EQUALIZER_ARRAY, null);
+        Log.e("Liuhang", "EqualizerActivity:" + "updateListEqualizerFromValue:" + value);
+
+        if (value != null && mDialogEqualizer != null) {
+            String[] levelsStr = value.split(";");
+            for (int i = 0; i < mDialogEqualizer.getNum(); i++)
+                mDialogEqualizer.setBand(i, Float.valueOf(levelsStr[i]));
+        }
+    }
+
+    private void saveAcousticFile() {
+        String values = "";
+        for (int i = 0; i < mDialogEqualizer.getNum(); i++) {
+            values += Float.toString(mDialogEqualizer.getBand(i)) + ";";
+        }
+        String fileName = MainActivity.ACOUSTIC_FILE_BASE  + mCurrentAcoustic;
+        SharedPreferences preferences = getSharedPreferences( fileName, 0);
+        preferences.edit().putString(MainActivity.AUDIO_EQUALIZER_ARRAY, values).commit();
+    }
+
+    private void registerClickListener() {
+        Button btn = findViewById(R.id.customize_1_btn);
+        if (btn != null)
+            btn.setOnClickListener(overrideListener);
+        btn = findViewById(R.id.customize_2_btn);
+        if (btn != null)
+            btn.setOnClickListener(overrideListener);
+        btn = findViewById(R.id.customize_3_btn);
+        if (btn != null)
+            btn.setOnClickListener(overrideListener);
+        btn = findViewById(R.id.customize_4_btn);
+        if (btn != null)
+            btn.setOnClickListener(overrideListener);
+        btn = findViewById(R.id.customize_5_btn);
+        if (btn != null)
+            btn.setOnClickListener(overrideListener);
+        btn = findViewById(R.id.customize_6_btn);
+        if (btn != null)
+            btn.setOnClickListener(overrideListener);
+
+        btn = findViewById(R.id.equalizer_save_btn);
+        if (btn != null)
+            btn.setOnClickListener(overrideListener);
+        btn = findViewById(R.id.equalizer_unsave_btn);
+        if (btn != null)
+            btn.setOnClickListener(overrideListener);
+    }
+
+    View.OnClickListener overrideListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            switch (v.getId()) {
+                case R.id.customize_1_btn: {
+                    mCurrentAcoustic = "custom_1";
+                    changeAcousticFile();
+                    break;
+                }
+                case R.id.customize_2_btn: {
+                    mCurrentAcoustic = "custom_2";
+                    changeAcousticFile();
+                    break;
+                }
+                case R.id.customize_3_btn: {
+                    mCurrentAcoustic = "custom_3";
+                    changeAcousticFile();
+                    break;
+                }
+                case R.id.customize_4_btn: {
+                    mCurrentAcoustic = "custom_4";
+                    changeAcousticFile();
+                    break;
+                }
+                case R.id.customize_5_btn: {
+                    mCurrentAcoustic = "custom_5";
+                    changeAcousticFile();
+                    break;
+                }
+                case R.id.customize_6_btn: {
+                    mCurrentAcoustic = "custom_6";
+                    changeAcousticFile();
+                    break;
+                }
+                case R.id.equalizer_save_btn: {
+                    saveAcousticFile();
+                    break;
+                }
+
+                case R.id.equalizer_unsave_btn: {
+                    finish();
+                    break;
+                }
+                default:
+                    break;
+
+            }
+
+        }
+    };
+
 }

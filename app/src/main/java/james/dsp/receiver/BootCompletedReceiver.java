@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import james.dsp.R;
 
@@ -39,6 +40,7 @@ public class BootCompletedReceiver extends BroadcastReceiver
     private void initializeNotificationChannel(Context context) {
         final CharSequence name = context.getString(R.string.notification_channel_name);
         final int importance = NotificationManager.IMPORTANCE_LOW;
+        Log.e("Liuhang", "BootCompletedReceiver: MainActivity: " + " initializeNotificationChannel， name" + name);
 
         NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL, name, importance);
 

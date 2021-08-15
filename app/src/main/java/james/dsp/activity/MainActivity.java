@@ -3,9 +3,14 @@ package james.dsp.activity;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -14,19 +19,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import james.dsp.R;
-import james.dsp.preference.EqualizerSurface;
+import james.dsp.service.HeadsetService;
 
 public class MainActivity extends Activity {
-
     /**
      * 功能列表视图
      */
     private int m_position;
     private Context mycontext;
     private ListView mFeatureListView;
-    protected EqualizerSurface mListEqualizer, mDialogEqualizer;
-    public static final String ACTIVITY_REQUEST = "name";
 
+    public static final String ACTIVITY_REQUEST = "name";
+    public static final String NOTIFICATION_CHANNEL = "1";
+    public static final String SHARED_PREFERENCES_BASENAME = "james.dsp";
+    public static final String ACTION_UPDATE_PREFERENCES = "james.dsp.UPDATE";
+    public static final String SHARED_PREFERENCES_EQUALIZER = "james.dsp.EqualizerActivity";
+    public static final String AUDIO_EQUALIZER_ARRAY = "audio.equalizer";
+    public static final String APP_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() ;
+    public static final String ACOUSTIC_FILE_BASE = "acoustic_";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +64,14 @@ public class MainActivity extends Activity {
                     .replace(R.id.myframelayout, contentView)
                     .commit();
         }
+
+        Intent serviceIntent = new Intent(this, HeadsetService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.e("Liuhang",  "DSPManager:" + "startForegroundService");
+            initializeNotificationChannel();
+            startForegroundService(serviceIntent);
+        } else startService(serviceIntent);
+        Log.e("Liuhang",  "DSPManager:" + "startService over");
     }
 
     @Override
@@ -121,9 +139,23 @@ public class MainActivity extends Activity {
     }
 
     private void sound_Delay() {
+        if (findViewById(R.id.myframelayout) != null) {
+            TimeDelayFrameLayout contentView = new TimeDelayFrameLayout(mFeatures[m_position].desc);
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.myframelayout, contentView)
+                    .commit();
+        }
     }
 
     private void sound_Field() {
+        if (findViewById(R.id.myframelayout) != null) {
+            AcousticFieldFrameLayout contentView = new AcousticFieldFrameLayout(mFeatures[m_position].desc);
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.myframelayout, contentView)
+                    .commit();
+        }
     }
 
     /**
@@ -198,5 +230,20 @@ public class MainActivity extends Activity {
             this.activityClass = Fragment.class;
             ;
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void initializeNotificationChannel() {
+        final CharSequence name = getString(R.string.notification_channel_name);
+        final int importance = NotificationManager.IMPORTANCE_LOW;
+        Log.e("Liuhang", "HeadsetService: MainActivity: " + " initializeNotificationChannel， name" + name);
+
+        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL, name, importance);
+
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        if (notificationManager != null)
+            notificationManager.createNotificationChannel(channel);
     }
 }

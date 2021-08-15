@@ -799,6 +799,7 @@ public final class DSPManager extends Activity
         final int importance = NotificationManager.IMPORTANCE_LOW;
 
         NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL, name, importance);
+        Log.e("Liuhang", "HeadsetService: DSPManager: " + " initializeNotificationChannel， name" + name);
 
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this
