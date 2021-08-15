@@ -56,17 +56,21 @@ public class EqualizerActivity extends Activity {
 
         setContentView(R.layout.custom_equalizer);
 
-        mDialogEqualizer = (EqualizerSurface) super.findViewById(R.id.FrequencyResponse);
+        mDialogEqualizer = (EqualizerSurface) super.findViewById(R.id.MyFrequencyResponse);
         mDialogEqualizer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.e("Liuhang", "EqualizerActivity:" + "onBindDialogView:" + " onTouch");
                 float x = event.getX();
                 float y = event.getY();
+                Log.e("Liuhang", "EqualizerActivity:" + "x:" + x + " y:" + y);
                 /* Which band is closest to the position user pressed? */
                 int band = mDialogEqualizer.findClosest(x);
                 int wy = v.getHeight();
                 float level = (y / wy) * (EqualizerSurface.MIN_DB - EqualizerSurface.MAX_DB) - EqualizerSurface.MIN_DB;
+                Log.e("Liuhang", "EqualizerActivity:" + "band:" + band + " wy:" + wy + " level:" + level);
+
+
                 if (level < EqualizerSurface.MIN_DB)
                     level = EqualizerSurface.MIN_DB;
                 if (level > EqualizerSurface.MAX_DB)
@@ -132,7 +136,7 @@ public class EqualizerActivity extends Activity {
 //        Log.e("Liuhang", "EqualizerActivity:" + "updateDspFromDialogEqualizer:");
         if (mHeadsetService != null) {
             Log.e("Liuhang", "EqualizerActivity:" + "updateDspFromDialogEqualizer:");
-            float[] levels = new float[mDialogEqualizer.getNum()];
+            float[] levels = new float[EqualizerSurface.mNumLevels];
             for (int i = 0; i < levels.length; i++)
                 levels[i] = mDialogEqualizer.getBand(i);
             mHeadsetService.setEqualizerLevels(levels);
@@ -145,14 +149,14 @@ public class EqualizerActivity extends Activity {
 
         if (value != null && mDialogEqualizer != null) {
             String[] levelsStr = value.split(";");
-            for (int i = 0; i < mDialogEqualizer.getNum(); i++)
+            for (int i = 0; i < EqualizerSurface.mNumLevels; i++)
                 mDialogEqualizer.setBand(i, Float.valueOf(levelsStr[i]));
         }
     }
 
     private void saveListEqualizer() {
         String values = "";
-        for (int i = 0; i < mDialogEqualizer.getNum(); i++) {
+        for (int i = 0; i < EqualizerSurface.mNumLevels; i++) {
             values += Float.toString(mDialogEqualizer.getBand(i)) + ";";
         }
         Log.e("Liuhang", "EqualizerActivity:" + "saveListEqualizer。" + values);
@@ -167,14 +171,14 @@ public class EqualizerActivity extends Activity {
 
         if (value != null && mDialogEqualizer != null) {
             String[] levelsStr = value.split(";");
-            for (int i = 0; i < mDialogEqualizer.getNum(); i++)
+            for (int i = 0; i < EqualizerSurface.mNumLevels; i++)
                 mDialogEqualizer.setBand(i, Float.valueOf(levelsStr[i]));
         }
     }
 
     private void saveAcousticFile() {
         String values = "";
-        for (int i = 0; i < mDialogEqualizer.getNum(); i++) {
+        for (int i = 0; i < EqualizerSurface.mNumLevels; i++) {
             values += Float.toString(mDialogEqualizer.getBand(i)) + ";";
         }
         String fileName = MainActivity.ACOUSTIC_FILE_BASE  + mCurrentAcoustic;

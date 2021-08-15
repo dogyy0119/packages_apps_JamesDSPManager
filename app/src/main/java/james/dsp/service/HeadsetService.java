@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import james.dsp.activity.JdspImpResToolbox;
+import james.dsp.preference.EqualizerSurface;
 
 import static james.dsp.activity.DSPManager.TAG;
 
@@ -281,7 +282,8 @@ public class HeadsetService extends Service {
 
     private float[] mOverriddenEqualizerLevels;
 
-    private float[] eqLevels = new float[15];
+//    private float[] eqLevels = new float[15];
+    private float[] eqLevels = new float[EqualizerSurface.mNumLevels];
     public static float[] bench_c0 = new float[10];
     public static float[] bench_c1 = new float[10];
     public static int benchNum = 0;

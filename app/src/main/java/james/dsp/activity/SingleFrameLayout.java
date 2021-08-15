@@ -107,7 +107,7 @@ public class SingleFrameLayout extends Fragment {
         if (mListEqualizer != null) {
             if (value != null && mListEqualizer != null) {
                 String[] levelsStr = value.split(";");
-                for (int i = 0; i < mListEqualizer.getNum(); i++)
+                for (int i = 0; i < EqualizerSurface.mNumLevels; i++)
                     mListEqualizer.setBand(i, Float.valueOf(levelsStr[i]));
             }
         }

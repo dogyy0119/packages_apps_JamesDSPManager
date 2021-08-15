@@ -51,7 +51,7 @@ public class EqualizerPreference extends DialogPreference
     {
         if (mHeadsetService != null)
         {
-            float[] levels = new float[15];
+            float[] levels = new float[EqualizerSurface.mNumLevels];
             for (int i = 0; i < levels.length; i++)
                 levels[i] = mDialogEqualizer.getBand(i);
             mHeadsetService.setEqualizerLevels(levels);
@@ -64,7 +64,7 @@ public class EqualizerPreference extends DialogPreference
         if (value != null && mListEqualizer != null)
         {
             String[] levelsStr = value.split(";");
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < EqualizerSurface.mNumLevels; i++)
                 mListEqualizer.setBand(i, Float.valueOf(levelsStr[i]));
         }
     }
@@ -97,7 +97,7 @@ public class EqualizerPreference extends DialogPreference
         });
         if (mListEqualizer != null)
         {
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < EqualizerSurface.mNumLevels; i++)
                 mDialogEqualizer.setBand(i, mListEqualizer.getBand(i));
         }
         getContext().bindService(new Intent(getContext(), HeadsetService.class), connectionForDialog, 0);
@@ -109,7 +109,7 @@ public class EqualizerPreference extends DialogPreference
         if (positiveResult)
         {
             String value = "";
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < EqualizerSurface.mNumLevels; i++)
                 value += String.format(Locale.ROOT, "%.7f", mDialogEqualizer.getBand(i)) + ";";
             persistString(value);
             updateListEqualizerFromValue();
