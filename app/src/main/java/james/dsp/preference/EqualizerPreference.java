@@ -79,7 +79,6 @@ public class EqualizerPreference extends DialogPreference
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
-                Log.e("Liuhang",  "EqualizerPreference:" + "onBindDialogView:" + " onTouch");
                 float x = event.getX();
                 float y = event.getY();
                 /* Which band is closest to the position user pressed? */

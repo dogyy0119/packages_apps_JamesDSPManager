@@ -636,6 +636,7 @@ public class HeadsetService extends Service {
     private void updateDsp(SharedPreferences preferences, SharedPreferences advancedPref, JDSPModule session, boolean updateMajor, int sessionId) {
         boolean masterSwitch = preferences.getBoolean("dsp.masterswitch.enable", false);
         Log.e("Liuhang",  "HeadsetService:" + "updateDsp:" + "big ;masterSwitch:" + masterSwitch );
+        Log.e("Liuhang",  "HeadsetService:" + "updateDsp:" + "big ;DSPManager.devMsgDisplay:" + DSPManager.devMsgDisplay );
         session.JamesDSP.setEnabled(masterSwitch); // Master switch
         if (masterSwitch) {
             int compressorEnabled = preferences.getBoolean("dsp.compression.enable", false) ? 1 : 0;
@@ -691,6 +692,9 @@ public class HeadsetService extends Service {
             }
             session.setParameterShort(session.JamesDSP, 151, Short.valueOf(advancedPref.getString("dsp.tone.filtertype", "0")));
             session.setParameterShort(session.JamesDSP, 1202, (short) equalizerEnabled); // Equalizer switch
+
+            if( equalizerEnabled != 1 ) Log.e("Liuhang",  "HeadsetService:" + "updateDsp:" + "big ; equalizerEnabled: false" );
+
             if (equalizerEnabled == 1) {
                 /* Equalizer state is in a single string preference with all values separated by ; */
                 if (mOverriddenEqualizerLevels != null) {
@@ -759,6 +763,8 @@ public class HeadsetService extends Service {
                 String mConvIRFileName = mConvIRFilePath.replace(DSPManager.impulseResponsePath, "");
                 // Liuhang Add file name
                 int[] impinfo = JdspImpResToolbox.GetLoadImpulseResponseInfo(mConvIRFilePath);
+                Log.e("Liuhang",  "HeadsetService:" + "updateDsp:" + "big ; channel impinfo[0]:" + impinfo[0] + "mConvIRFilePath" + mConvIRFilePath);
+
                 if (impinfo == null)
                     Toast.makeText(HeadsetService.this, R.string.impfilefault, Toast.LENGTH_SHORT).show();
                 else {

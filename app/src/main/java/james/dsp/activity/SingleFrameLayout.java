@@ -265,4 +265,14 @@ public class SingleFrameLayout extends Fragment {
         eText = getView().findViewById(R.id.low_pass_editText);
         eText.setText( Integer.toString( low_pass ) );
     }
+
+
+    private void saveGainPreference() {
+        EditText eText = getView().findViewById(R.id.delay_time_editText);
+        String gain = eText.getText().toString() ;
+
+        SharedPreferences advancedPref = this.getActivity().getSharedPreferences(MainActivity.SHARED_PREFERENCES_BASENAME + "." + "advanced" + "." + "speaker", 0);
+        advancedPref.edit().putInt("dsp.compression.pregain", Integer.valueOf( gain )).commit();
+    }
+
 }
