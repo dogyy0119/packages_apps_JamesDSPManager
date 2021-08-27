@@ -60,15 +60,15 @@ public class EqualizerActivity extends Activity {
         mDialogEqualizer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.e("Liuhang", "EqualizerActivity:" + "onBindDialogView:" + " onTouch");
+                //Log.e("Liuhang", "EqualizerActivity:" + "onBindDialogView:" + " onTouch");
                 float x = event.getX();
                 float y = event.getY();
-                Log.e("Liuhang", "EqualizerActivity:" + "x:" + x + " y:" + y);
+                //Log.e("Liuhang", "EqualizerActivity:" + "x:" + x + " y:" + y);
                 /* Which band is closest to the position user pressed? */
                 int band = mDialogEqualizer.findClosest(x);
                 int wy = v.getHeight();
                 float level = (y / wy) * (EqualizerSurface.MIN_DB - EqualizerSurface.MAX_DB) - EqualizerSurface.MIN_DB;
-                Log.e("Liuhang", "EqualizerActivity:" + "band:" + band + " wy:" + wy + " level:" + level);
+                //Log.e("Liuhang", "EqualizerActivity:" + "band:" + band + " wy:" + wy + " level:" + level);
 
 
                 if (level < EqualizerSurface.MIN_DB)
@@ -135,7 +135,7 @@ public class EqualizerActivity extends Activity {
     protected void updateDspFromDialogEqualizer() {
 //        Log.e("Liuhang", "EqualizerActivity:" + "updateDspFromDialogEqualizer:");
         if (mHeadsetService != null) {
-            Log.e("Liuhang", "EqualizerActivity:" + "updateDspFromDialogEqualizer:");
+   //         Log.e("Liuhang", "EqualizerActivity:" + "updateDspFromDialogEqualizer:");
             float[] levels = new float[EqualizerSurface.mNumLevels];
             for (int i = 0; i < levels.length; i++)
                 levels[i] = mDialogEqualizer.getBand(i);
@@ -145,7 +145,7 @@ public class EqualizerActivity extends Activity {
 
     private void updateListEqualizerFromValue() {
         String value = preferencesMode.getString(MainActivity.AUDIO_EQUALIZER_ARRAY, null);
-        Log.e("Liuhang", "EqualizerActivity:" + "updateListEqualizerFromValue:" + value);
+    //    Log.e("Liuhang", "EqualizerActivity:" + "updateListEqualizerFromValue:" + value);
 
         if (value != null && mDialogEqualizer != null) {
             String[] levelsStr = value.split(";");

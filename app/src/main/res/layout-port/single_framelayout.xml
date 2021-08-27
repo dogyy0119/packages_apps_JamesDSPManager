@@ -48,7 +48,7 @@
                     android:text="增益调节" />
 
                 <EditText
-                    android:id="@+id/left_mid_editText"
+                    android:id="@+id/gain_editText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
@@ -137,45 +137,63 @@
                     android:text="  均 衡 器   " />
 
                 <Button
-                    android:id="@+id/stand_music_btn"
+                    android:id="@+id/sig_stand_music_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="标准" />
 
                 <Button
-                    android:id="@+id/self_define_music_btn"
+                    android:id="@+id/sig_self_define_music_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="自定义" />
 
                 <Button
-                    android:id="@+id/jazz_music_btn"
+                    android:id="@+id/sig_jazz_music_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="爵士" />
 
                 <Button
-                    android:id="@+id/popular_music_btn"
+                    android:id="@+id/sig_popular_music_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="流行" />
 
                 <Button
-                    android:id="@+id/classic_music_btn"
+                    android:id="@+id/sig_classic_music_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="古典" />
 
                 <Button
-                    android:id="@+id/hip_hop_music_btn"
+                    android:id="@+id/sig_hip_hop_music_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="Hip-Hop" />
 
             </LinearLayout>

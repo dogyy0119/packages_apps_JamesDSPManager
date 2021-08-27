@@ -32,6 +32,7 @@
                     android:gravity="center_horizontal"
                     android:minWidth="60dp"
                     android:text="30"
+                    android:background="@drawable/edit_for_line_bg"
                     android:textSize="14sp" />
 
                 <TextView
@@ -53,6 +54,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:minWidth="60dp"
+                    android:background="@drawable/edit_for_line_bg"
                     android:text="1"
                     android:textSize="14sp" />
 
@@ -86,6 +88,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:minWidth="60dp"
+                    android:background="@drawable/edit_for_line_bg"
                     android:text="30"
                     android:textSize="14sp" />
 
@@ -108,6 +111,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:minWidth="60dp"
+                    android:background="@drawable/edit_for_line_bg"
                     android:text="1"
                     android:textSize="14sp" />
 
@@ -141,6 +145,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="标准" />
 
                 <Button
@@ -148,6 +155,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="自定义" />
 
                 <Button
@@ -155,6 +165,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="爵士" />
 
                 <Button
@@ -162,6 +175,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="流行" />
 
                 <Button
@@ -169,6 +185,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="古典" />
 
                 <Button
@@ -176,6 +195,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_margin="5dip"
+                    android:background="@drawable/btn_bg_red"
+                    android:gravity="center"
                     android:text="Hip-Hop" />
 
             </LinearLayout>

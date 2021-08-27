@@ -31,6 +31,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:minWidth="60dp"
+                        android:background="@drawable/edit_for_line_bg"
                         android:text="30"
                         android:textSize="14sp" />
 
@@ -54,6 +55,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:minWidth="60dp"
+                        android:background="@drawable/edit_for_line_bg"
                         android:text="30"
                         android:textSize="14sp" />
 
@@ -77,6 +79,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:minWidth="60dp"
+                        android:background="@drawable/edit_for_line_bg"
                         android:text="30"
                         android:textSize="14sp" />
 
@@ -120,6 +123,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:minWidth="60dp"
+                        android:background="@drawable/edit_for_line_bg"
                         android:text="30"
                         android:textSize="14sp" />
 
@@ -143,6 +147,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:minWidth="60dp"
+                        android:background="@drawable/edit_for_line_bg"
                         android:text="30"
                         android:textSize="14sp" />
 
@@ -166,6 +171,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:minWidth="60dp"
+                        android:background="@drawable/edit_for_line_bg"
                         android:text="30"
                         android:textSize="14sp" />
 

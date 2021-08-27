@@ -15,6 +15,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="5dip"
+            android:background="@drawable/btn_bg_red"
+            android:gravity="center"
             android:text="自定义1" />
 
         <Button
@@ -22,6 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="5dip"
+            android:background="@drawable/btn_bg_red"
+            android:gravity="center"
             android:text="自定义2" />
 
         <Button
@@ -29,6 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="5dip"
+            android:background="@drawable/btn_bg_red"
+            android:gravity="center"
             android:text="自定义3" />
 
         <Button
@@ -36,6 +45,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="5dip"
+            android:background="@drawable/btn_bg_red"
+            android:gravity="center"
             android:text="自定义4" />
 
         <Button
@@ -43,6 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="5dip"
+            android:background="@drawable/btn_bg_red"
+            android:gravity="center"
             android:text="自定义5" />
 
         <Button
@@ -50,6 +65,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="5dip"
+            android:background="@drawable/btn_bg_red"
+            android:gravity="center"
             android:text="自定义6" />
 
         <Button
@@ -57,6 +75,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="5dip"
+            android:background="@drawable/btn_bg_red"
+            android:gravity="center"
             android:text="不保存" />
 
         <Button
@@ -64,6 +85,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="5dip"
+            android:background="@drawable/btn_bg_red"
+            android:gravity="center"
             android:text="保存" />
 
     </LinearLayout>
